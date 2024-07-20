@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import Cards from "./Cards/Cards";
 import Footer from "./Footer/Footer";
 import Dropdown from "./Dropdown/Dropdown";
-import bgimg from "../assets/bgimg.png"
+import bgimg from "../assets/bgimg.png";
 
 const Home = () => {
   const [Category, setCategory] = useState("now_playing");
@@ -13,7 +13,7 @@ const Home = () => {
       <Navbar />
       <div className="w-screen h-80 bg-[#262344] relative">
         <div className="z-10 absolute right-0 bottom-0">
-          <img src={bgimg} alt="bgimg" className="w-54 h-54"/>
+          <img src={bgimg} alt="bgimg" className="w-54 h-54" />
         </div>
         <div className=" p-5 h-80 flex flex-col justify-center md:itmes-end md:justify-start">
           <h1 className="md:text-[5rem] text-[4rem] font-serif ">Work Hub</h1>
