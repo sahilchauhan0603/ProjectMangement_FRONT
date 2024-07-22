@@ -1,10 +1,11 @@
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
+import Axios from "../../../Data/Axios";
 
 export const UserForm = createContext();
 
 const Context = (props) => {
   const [uploaders, setUploaders] = useState([]);
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -40,21 +41,19 @@ const Context = (props) => {
     return Object.keys(formErrors).length === 0;
   };
 
-  const fetchUploaders = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/api/v1/upload");
-      setUploaders(response.data);
-    } catch (error) {
-      console.log("Error fetching uploaders");
-    }
-  };
+  // const fetchUploaders = async () => {
+  //   try {
+  //     const response = await Axios.get("api/v1/upload");
+  //     console.log(response);
+  //     setUploaders(response.data);
+  //   } catch (error) {
+  //     console.log("Error fetching uploaders");
+  //   }
+  // };
 
-  console.log(uploaders)
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
       try {
-        const ans=await axios.post("http://localhost:8080/api/v1/upload", formData);
+        const ans = await Axios.post("/api/v1/upload", formData);
         console.log(ans);
         console.log("Uploader created successfully");
         fetchUploaders();
@@ -67,6 +66,7 @@ const Context = (props) => {
           rollNumber: "",
           batchstart: "",
           batchend: "",
+          Collagename:"",
           github: "",
           linkedin: "",
           faculty: "",
@@ -81,15 +81,17 @@ const Context = (props) => {
       } catch (error) {
         console.log("Error creating uploader");
       }
-    }
   };
+  console.log(uploaders)
 
-  useEffect(() => {
-    fetchUploaders();
-  }, []);
+  // useEffect(() => {
+  //   fetchUploaders();
+  // }, []);
 
   return (
-    <UserForm.Provider value={{ formData, setFormData, handleSubmit, fetchUploaders, error }}>
+    <UserForm.Provider
+      value={{ formData, setFormData, handleSubmit, error }}
+    >
       {props.children}
     </UserForm.Provider>
   );

@@ -93,9 +93,50 @@ type Uploader struct {
 	// required: true
 	LastName string `json:"last_name"`
 
+	//Department of the uploader
+	//required:true
+	Department string `json:"department"`
+
+	//Phone number of the uploader
+	//required: true
+	Phonenumber string `json:"phone_number"`
+
+	//Rollnumber of the upload
+	// required: true
+	Rollnumber string `json:"roll_number"`
+
+	//year of the graduation
+	//required: true
+	Batchstart string `json:"start"`
+	Batchend   string `json:"end"`
+
+	//githublink of the upload
+	Github   string `json:"github"`
+	Linkedin string `json:"linkedin"`
+
 	// CollegeName of the uploader
 	// required: true
 	CollegeName string `json:"college_name"`
+
+	//faculty name
+	//required:true
+	Faculty string `json:"faculty"`
+
+	//Topic name
+	//required: true
+	Topic string `json:"topic"`
+
+	//Project url
+	//required: true
+	Projecturl string `json:"projecturl"`
+
+	//About approach
+	//required: true
+	Aboutapproach string `json:"aboutapproach"`
+
+	//About Work
+	//required:true
+	Aboutwork string `json:"aboutwork"`
 
 	// WorkID is the foreign key to Work
 	// required: true
@@ -112,7 +153,6 @@ type Uploader struct {
 	// CreatedAt timestamp
 	CreatedAt time.Time `json:"created_at"`
 }
-
 
 // EmailRequest represents the EmailRequest model
 // @Description EmailRequest model

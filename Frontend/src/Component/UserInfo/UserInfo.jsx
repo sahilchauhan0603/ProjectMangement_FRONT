@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserForm } from "../Usecontext/UserForm/UserForm";
 
 const UserInfo = () => {
-  const {formData, setFormData , handleSubmit , error } = useContext(UserForm);
+  const { formData, setFormData, handleSubmit, error } = useContext(UserForm);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -12,12 +12,10 @@ const UserInfo = () => {
     });
   };
 
-
- 
   return (
     <div className="w-[95vw]  ml-2 md:ml-0 md:px-10 ">
       <form onSubmit={handleSubmit}>
-        <div className=" md:max-w-screen-lg md:mx-auto  p-8 flex flex-col bg-[#605e5e2e] rounded-xl  md:items-center h-auto  text-black">
+        <div className=" md:max-w-screen-lg md:mx-auto relative overflow-hidden  p-8 flex flex-col bg-[#605e5e2e] rounded-xl  md:items-center h-auto  text-black">
           <div className="flex flex-col md:flex-row gap-[10vw] mb-10">
             <div>
               <label className="flex text-md font-medium text-white">
@@ -29,7 +27,7 @@ const UserInfo = () => {
                 value={formData.firstname}
                 onChange={handleChange}
                 placeholder="Username..."
-                className="mt-1 px-3 py-2 outline-none w-full  md:w-[16vw] rounded-md"
+                className="mt-1 px-3 py-2 outline-none w-full  md:w-[24rem] rounded-md"
               />
               {error.firstName && (
                 <p className="text-red-500 text-xs italic">{error.firstName}</p>
@@ -45,7 +43,7 @@ const UserInfo = () => {
                 value={formData.Lastname}
                 onChange={handleChange}
                 placeholder="Lastname..."
-                className="mt-1 w-full  md:w-[16vw] outline-none rounded-md px-3 py-2 "
+                className="mt-1 w-full  md:w-[24rem] outline-none rounded-md px-3 py-2 "
               />
               {error.Lastname && (
                 <p className="text-red-500 text-xs italic">{error.Lastname}</p>
@@ -63,7 +61,7 @@ const UserInfo = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Email..."
-                className="mt-1 w-full md:w-[16vw]  rounded-md px-3 py-2 outline-none"
+                className="mt-1 w-full md:w-[24rem]  rounded-md px-3 py-2 outline-none"
               />
               {error.email && (
                 <p className="text-red-500 text-xs italic">{error.email}</p>
@@ -79,7 +77,7 @@ const UserInfo = () => {
                 value={formData.phonenumber}
                 onChange={handleChange}
                 placeholder="Phone no."
-                className="mt-1  w-full md:w-[16vw] outline-none rounded-md px-3 py-2 "
+                className="mt-1  w-full md:w-[24rem] outline-none rounded-md px-3 py-2 "
               />
             </div>
             {error.phonenumber && (
@@ -98,7 +96,7 @@ const UserInfo = () => {
                 value={formData.department}
                 onChange={handleChange}
                 placeholder="Department..."
-                className="mt-1  w-full md:w-[16vw] outline-none rounded-md px-3 py-2 "
+                className="mt-1  w-full md:w-[24rem] outline-none rounded-md px-3 py-2 "
               />
               {error.department && (
                 <p className="text-red-500 text-xs italic">
@@ -116,7 +114,7 @@ const UserInfo = () => {
                 value={formData.rollNumber}
                 onChange={handleChange}
                 placeholder="Roll No."
-                className="mt-1  w-full md:w-[16vw] outline-none rounded-md px-3 py-2 "
+                className="mt-1  w-full md:w-[24rem] outline-none rounded-md px-3 py-2 "
               />
               {error.rollNumber && (
                 <p className="text-red-500 text-xs italic">
@@ -125,11 +123,27 @@ const UserInfo = () => {
               )}
             </div>
           </div>
-          <div className="w-full  md:px-20 mb-10 ">
+          <div className="w-full  mb-5">
+            <label className=" flex text-md font-medium text-white">
+              Collage Name
+            </label>
+            <input
+              type="text"
+              name="Collagename"
+              value={formData.Collagename}
+              onChange={handleChange}
+              placeholder="Collagename..."
+              className="md:w-full  mt-1 px-3 py-2 outline-none w-full   rounded-md"
+            />
+            {error.Collagename && (
+              <p className="text-red-500 text-xs italic">{error.Collagename}</p>
+            )}
+          </div>
+          <div className="w-full  mb-10 ">
             <label className="flex text-md font-medium text-white">
               Year of Graduation
             </label>
-            <div className="flex md:flex-row flex-col   md:justify-between ">
+            <div className="flex md:flex-row flex-col md:justify-between ">
               <div className="mt-5">
                 <h1 className="text-white">Start</h1>
                 <input
@@ -137,7 +151,7 @@ const UserInfo = () => {
                   name="batchstart"
                   value={formData.batchstart}
                   onChange={handleChange}
-                  className="mt-1 w-full md:w-[10vw] outline-none rounded-md px-3 py-2 "
+                  className="md:w-full mt-1 px-3 py-2 outline-none w-full   rounded-md"
                 />
                 {error.batchstart && (
                   <p className="text-red-500 text-xs italic">
@@ -174,7 +188,7 @@ const UserInfo = () => {
                 value={formData.github}
                 onChange={handleChange}
                 placeholder="Link..."
-                className="mt-1  w-full md:w-[16vw] outline-none  rounded-md px-3 py-2 "
+                className="mt-1  w-full md:w-[24rem] outline-none  rounded-md px-3 py-2 "
               />
               {error.github && (
                 <p className="text-red-500 text-xs italic">{error.github}</p>
@@ -190,7 +204,7 @@ const UserInfo = () => {
                 value={formData.linkedin}
                 onChange={handleChange}
                 placeholder="Link..."
-                className="mt-1  w-full md:w-[16vw] outline-none rounded-md px-3 py-2 "
+                className="mt-1  w-full md:w-[24rem] outline-none rounded-md px-3 py-2 "
               />
             </div>
             {error.linkedin && (

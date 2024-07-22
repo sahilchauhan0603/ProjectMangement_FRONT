@@ -2,19 +2,15 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserForm } from "../Usecontext/UserForm/UserForm";
 
 const Researchinfo = () => {
-  const {formData, setformData , handleSubmit} = useContext(UserForm);
+  const { formData, setFormData, handleSubmit } = useContext(UserForm);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setformData({
+    setFormData({
       ...formData,
       [name]: value,
     });
   };
-
-  
-
-
-
 
   return (
     <div className="w-[95vw] md:px-10 ml-2 md:ml-0">
@@ -100,7 +96,6 @@ const Researchinfo = () => {
               value={formData.aboutResearch}
               onChange={handleChange}
               rows="7"
-              autoCorrect=""
               className="w-full outline-none px-5 py-4 overflow-scroll  text-black"
             ></textarea>
           </div>
@@ -113,7 +108,6 @@ const Researchinfo = () => {
               value={formData.aboutapproach}
               onChange={handleChange}
               rows="7"
-              autoCorrect=""
               className="w-full  outline-none px-5 py-4 overflow-scroll text-black"
             ></textarea>
           </div>

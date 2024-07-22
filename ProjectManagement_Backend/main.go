@@ -18,7 +18,7 @@ import (
 // @title Project Management APIs
 // @version 1.0
 // @description This is Project Management API documentation
-// @host projectmanagement-backend-tysm.onrender.com
+// @host localhost:8000
 // @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authorization
@@ -38,11 +38,11 @@ func main() {
 	routes.InitializeRoutes(router)
 
 	// Enable CORS
-    cors := handlers.CORS(
-        handlers.AllowedOrigins([]string{"*"}), // Change to specific origins in production
-        handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
-        handlers.AllowedHeaders([]string{"Authorization", "Content-Type"}),
-    )
+	cors := handlers.CORS(
+		handlers.AllowedOrigins([]string{"*"}), // Change to specific origins in production
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+		handlers.AllowedHeaders([]string{"Authorization", "Content-Type"}),
+	)
 
 	// Set the port for the server
 	port := os.Getenv("PORT")
@@ -53,4 +53,3 @@ func main() {
 	fmt.Printf("Server is running on port %s\n", port)
 	log.Fatalf("Failed to start server: %v", http.ListenAndServe(fmt.Sprintf(":%s", port), cors(router)))
 }
-

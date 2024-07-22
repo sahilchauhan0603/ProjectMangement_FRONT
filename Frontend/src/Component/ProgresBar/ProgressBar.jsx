@@ -7,8 +7,7 @@ import { UserForm } from "../Usecontext/UserForm/UserForm";
 const CheckoutStepper = ({ stepsConfig = [] }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);
-  const {handleSubmit, fetchUploaders} = useContext(UserForm);
-
+  const { handleSubmit } = useContext(UserForm);
 
   const handleNext = () => {
     setCurrentStep((prevStep) => {
@@ -23,17 +22,14 @@ const CheckoutStepper = ({ stepsConfig = [] }) => {
 
   // Fetch all uploaders
   const handleSubmitAndFetch = async () => {
-    await handleSubmit(); // Call the submit function to handle form data submission
-    fetchUploaders(); // Fetch uploaders after submission
+    console.log("Uploading");
+    await handleSubmit(); // Call the submit function to handle form data submission // Fetch uploaders after submission
   };
   const handlePrevious = () => {
     setCurrentStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
   };
 
-
   const ActiveComponent = stepsConfig[currentStep - 1]?.Component;
-
-
 
   return (
     <>
@@ -59,9 +55,7 @@ const CheckoutStepper = ({ stepsConfig = [] }) => {
                     {step.name}
                   </div>
                   <div className="w-52 text-center mt-4 text-lg ">
-                    {currentStep === index + 1 ? (
-                      <ActiveComponent />
-                    ) : null}
+                    {currentStep === index + 1 ? <ActiveComponent /> : null}
                   </div>
                 </div>
               );
@@ -89,7 +83,8 @@ const CheckoutStepper = ({ stepsConfig = [] }) => {
                   {currentStep === stepsConfig.length ? (
                     <button
                       type="button"
-                      onClick={handleSubmitAndFetch}                      className="text-sm"
+                      onClick={handleSubmitAndFetch}
+                      className="text-sm"
                     >
                       Submit
                     </button>
@@ -100,13 +95,7 @@ const CheckoutStepper = ({ stepsConfig = [] }) => {
           </div>
         </div>
 
-        <div>
-          {currentStep === 1 ? (
-            <UserInfo />
-          ) : (
-            <Researchinfo />
-          )}
-        </div>
+        <div>{currentStep === 1 ? <UserInfo /> : <Researchinfo />}</div>
       </div>
     </>
   );
