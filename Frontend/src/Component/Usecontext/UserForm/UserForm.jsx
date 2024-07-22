@@ -50,48 +50,35 @@ const Context = (props) => {
   //     console.log("Error fetching uploaders");
   //   }
   // };
+  const handleSubmit = async () => {
 
-  const handleSubmit = async (e) => {
-      try {
-        const ans = await Axios.post("/api/v1/upload", formData);
-        console.log(ans);
-        console.log("Uploader created successfully");
-        fetchUploaders();
-        setFormData({
-          firstname: "",
-          lastname: "",
-          email: "",
-          phonenumber: "",
-          department: "",
-          rollNumber: "",
-          batchstart: "",
-          batchend: "",
-          Collagename:"",
-          github: "",
-          linkedin: "",
-          faculty: "",
-          student: "",
-          research: "",
-          projecturl: "",
-          researchstart: "",
-          researchend: "",
-          aboutResearch: "",
-          aboutapproach: "",
-        }); // Clear form data
-      } catch (error) {
-        console.log("Error creating uploader");
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/upload", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjE2MjI2MTksInN1YiI6IlhRalFWeDREX0dMRDZYWFJpb01lMVBKRTNQYy1GV1N5NkRZaS1XdTFPVEEifQ.UVDEtwd5PvX94Grn_EiaENdtCF9TghadZHf996DwRsU", // Replace with your actual token
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error uploading file", error);
+    }
   };
-  console.log(uploaders)
 
   // useEffect(() => {
   //   fetchUploaders();
   // }, []);
 
   return (
-    <UserForm.Provider
-      value={{ formData, setFormData, handleSubmit, error }}
-    >
+    <UserForm.Provider value={{ formData, setFormData, handleSubmit, error }}>
       {props.children}
     </UserForm.Provider>
   );

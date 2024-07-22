@@ -10,14 +10,14 @@ import (
 )
 
 func InitializeRoutes(router *mux.Router) {
-    
+
 	// Handle preflight requests for the /api/v1 endpoints
-    router.PathPrefix("/api/v1").Methods("OPTIONS").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        w.Header().Set("Access-Control-Allow-Origin", "*")
-        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
-        w.WriteHeader(http.StatusNoContent)
-    })
+	router.PathPrefix("/api/v1").Methods("OPTIONS").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
+		w.WriteHeader(http.StatusNoContent)
+	})
 
 	// Authentication routes
 	// @Summary Microsoft login
@@ -34,7 +34,6 @@ func InitializeRoutes(router *mux.Router) {
 
 	// Swagger UI route
 	router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
-
 
 	// Uploader routes
 	uploaderRouter := router.PathPrefix("/api/v1").Subrouter()
@@ -92,7 +91,6 @@ func InitializeRoutes(router *mux.Router) {
 	// @Router /api/v1/upload/{id} [delete]
 	uploaderRouter.HandleFunc("/upload/{id}", controllers.DeleteUploader).Methods("DELETE")
 
-
 	// Work routes
 	workRouter := router.PathPrefix("/api/v1").Subrouter()
 	workRouter.Use(middleware.JWTVerify)
@@ -148,7 +146,6 @@ func InitializeRoutes(router *mux.Router) {
 	// @Failure 404 {string} string "Work not found"
 	// @Router /api/v1/work/{id} [delete]
 	workRouter.HandleFunc("/work/{id}", controllers.DeleteWork).Methods("DELETE")
-
 
 	// Admin routes
 	adminRouter := router.PathPrefix("/api/v1").Subrouter()
@@ -206,7 +203,6 @@ func InitializeRoutes(router *mux.Router) {
 	// @Router /api/v1/admin/{id} [delete]
 	adminRouter.HandleFunc("/admin/{id}", controllers.DeleteAdmin).Methods("DELETE")
 
-
 	// testing route
 	emailRouter := router.PathPrefix("/api/v1").Subrouter()
 	emailRouter.Use(middleware.JWTVerify)
@@ -220,6 +216,6 @@ func InitializeRoutes(router *mux.Router) {
 	// @Success 201 {object} models.EmailRequest
 	// @Failure 400 {string} string "Bad Request"
 	// @Router /api/v1/sendEmail [post]
-    emailRouter.HandleFunc("/sendEmail", controllers.SendEmail).Methods("POST")
+	emailRouter.HandleFunc("/sendEmail", controllers.SendEmail).Methods("POST")
 
 }

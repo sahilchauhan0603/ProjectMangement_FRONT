@@ -39,7 +39,7 @@ func main() {
 
 	// Enable CORS
 	cors := handlers.CORS(
-		handlers.AllowedOrigins([]string{"*"}), // Change to specific origins in production
+		handlers.AllowedOrigins([]string{"http://localhost:5173"}), // Change to specific origins in production
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
 		handlers.AllowedHeaders([]string{"Authorization", "Content-Type"}),
 	)
