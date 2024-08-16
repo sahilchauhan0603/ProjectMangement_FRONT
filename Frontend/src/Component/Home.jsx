@@ -23,7 +23,7 @@ const Home = () => {
           </p>
         </div>
       </div>
-      <div className="w-screen flex gap-32 md:justify-between md:px-16 items-center ml-4 mt-2">
+      <div className="w-screen h-full flex gap-32 md:justify-between md:px-16  ml-4 mt-2">
         <h1 className="text-[1rem] font-bold sm:text-[1.6rem] md:text-[2rem] text-white">
           Top Work
         </h1>
@@ -35,7 +35,6 @@ const Home = () => {
           ></Dropdown>
         </div>
       </div>
-      <Cards />
       <div>
         <Footer />
       </div>

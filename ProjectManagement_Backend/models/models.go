@@ -4,154 +4,133 @@ import "time"
 
 // Admin represents the Admin model
 // @Description Admin model
-type Admin struct {
+type ProjectAdmin struct {
 
 	// ID of the admin
 	// required: true
-	AdminID int64 `json:"admin_id" gorm:"primaryKey;autoIncrement"`
+	AdminID int64 `gorm:"primaryKey;autoIncrement"`
 
 	// Name of the Admin
 	// required: true
-	AdminName string `json:"admin_name"`
+	AdminName string
 
 	// UerName of the Admin
 	// required: true
-	Username string `json:"username"`
+	Username string
 
 	// Password of the Admin
 	// required: true
-	Password string `json:"password"`
+	Password string
+
+	ProjectIdsToVerify string
 
 	// Uploader associated with the Admin
-	Uploader []Uploader `gorm:"foreignKey:AdminID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Uploader []ProjectUploader `gorm:"foreignKey:AdminID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 
 	// Works associated with the Admin
-	Work []Work `gorm:"foreignKey:AdminID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-
-	// CreatedAt timestamp
-	CreatedAt time.Time
+	Work []ProjectWork `gorm:"foreignKey:AdminID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 // Work represents the Work model
 // @Description Work model
-type Work struct {
+type ProjectWork struct {
 	// WorkID is the primary key
 	// required: true
-	WorkID int64 `json:"work_id" gorm:"primaryKey;autoIncrement"`
+	WorkID int64 `gorm:"primaryKey;autoIncrement"`
 
 	// Title of the Work
 	// required: true
-	Title string `json:"title"`
-
-	// Topic of the Work
-	// required: true
-	Topic string `json:"topic"`
+	Title string
 
 	// Type of the Work
 	// required: true
-	Type string `json:"type"`
+	Type string
 
 	// Approach used in the Work
 	// required: true
-	Approach string `json:"approach"`
+	Approach string
 
 	// Description of the Work
 	// required: true
-	Description string `json:"description"`
+	Description string
 
 	// Supervisor of the Work
 	// required: true
-	Supervisor string `json:"supervisor"`
+	Supervisor string
 
 	// AdminID is the foreign key to Admin
 	// required: true
-	AdminID int64 `json:"admin_id" gorm:"index"`
+	AdminID int64 `gorm:"index"`
 
 	// Proof related to the Work
 	// required: true
-	Proof string `json:"proof"`
+	Proof string
 
 	// Uploaders associated with the Work
-	Uploaders []Uploader `json:"uploaders" gorm:"foreignKey:WorkID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Uploaders []ProjectUploader `gorm:"foreignKey:WorkID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 
 	// CreatedAt timestamp
-	CreatedAt time.Time `json:"created_at"`
+	StartDate time.Time
+
+	EndDate time.Time
+
+	Category string
 }
 
 // Uploader represents the uploader model
 // @Description Uploader model
-type Uploader struct {
+type ProjectUploader struct {
 	// EnrollmentNo is the primary key
 	// required: true
-	EnrollmentNo int64 `json:"enrollment_no" gorm:"primaryKey;autoIncrement"`
+	EnrollmentNo int64 `gorm:"primaryKey;autoIncrement"`
 
 	// FirstName of the uploader
 	// required: true
-	FirstName string `json:"first_name"`
+	FirstName string
 
 	// LastName of the uploader
 	// required: true
-	LastName string `json:"last_name"`
+	LastName string
 
-	//Department of the uploader
-	//required:true
-	Department string `json:"department"`
-
-	//Phone number of the uploader
-	//required: true
-	Phonenumber string `json:"phone_number"`
-
-	//Rollnumber of the upload
+	// InstitutionName of the uploader
 	// required: true
-	Rollnumber string `json:"roll_number"`
-
-	//year of the graduation
-	//required: true
-	Batchstart string `json:"start"`
-	Batchend   string `json:"end"`
-
-	//githublink of the upload
-	Github   string `json:"github"`
-	Linkedin string `json:"linkedin"`
-
-	// CollegeName of the uploader
-	// required: true
-	CollegeName string `json:"college_name"`
-
-	//faculty name
-	//required:true
-	Faculty string `json:"faculty"`
-
-	//Topic name
-	//required: true
-	Topic string `json:"topic"`
-
-	//Project url
-	//required: true
-	Projecturl string `json:"projecturl"`
-
-	//About approach
-	//required: true
-	Aboutapproach string `json:"aboutapproach"`
-
-	//About Work
-	//required:true
-	Aboutwork string `json:"aboutwork"`
+	Department string
 
 	// WorkID is the foreign key to Work
 	// required: true
-	WorkID int64 `json:"work_id" gorm:"index"`
+	WorkID int64 `gorm:"index"`
 
 	// AdminID is the foreign key to Admin
 	// required: true
-	AdminID int64 `json:"admin_id" gorm:"index"`
+	AdminID int64 `gorm:"index"`
 
 	// Email of the uploader
 	// required: true
-	Email string `json:"email" gorm:"unique"`
+	Email string `gorm:"unique"`
 
-	// CreatedAt timestamp
-	CreatedAt time.Time `json:"created_at"`
+	PhoneNo string
+
+	BatchStart time.Time
+
+	BatchEnd time.Time
+
+	GithubProfile string
+
+	LinkedInProfile string
+
+	FacultyName string
+
+	Topic string
+
+	ProjectUrl string
+
+	Researchstart time.Time
+
+	Researchend time.Time
+
+	AboutResearch string
+
+	AboutAppoarch string
 }
 
 // EmailRequest represents the EmailRequest model

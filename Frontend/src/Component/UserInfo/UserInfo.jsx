@@ -1,21 +1,38 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserForm } from "../Usecontext/UserForm/UserForm";
+import { useForm } from "react-hook-form";
 
 const UserInfo = () => {
-  const { formData, setFormData, handleSubmit, error } = useContext(UserForm);
+  const { formData, setFormData } = useContext(UserForm);
+  const {
+    formState: { errors },
+    register,
+    handleSubmit,
+  } = useForm({
+    defaultValues: formData,
+  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+
 
   return (
     <div className="w-[95vw]  ml-2 md:ml-0 md:px-10 ">
-      <form onSubmit={handleSubmit}>
-        <div className=" md:max-w-screen-lg md:mx-auto relative overflow-hidden  p-8 flex flex-col bg-[#605e5e2e] rounded-xl  md:items-center h-auto  text-black">
+      <form onSubmit={handleSubmit(onsubmit)}>
+        
+      </form>
+    </div>
+  );
+};
+
+export default UserInfo;
+
+
+
+
+
+
+
+
+{/* <div className=" md:max-w-screen-lg md:mx-auto relative overflow-hidden  p-8 flex flex-col bg-[#605e5e2e] rounded-xl  md:items-center h-auto  text-black">
           <div className="flex flex-col md:flex-row gap-[10vw] mb-10">
             <div>
               <label className="flex text-md font-medium text-white">
@@ -23,14 +40,22 @@ const UserInfo = () => {
               </label>
               <input
                 type="text"
-                name="firstname"
-                value={formData.firstname}
-                onChange={handleChange}
+                value={formData.firstName}
+                {...register("firstname", {
+                  required: "First name is required",
+                  min: 4,
+                  onChange: handleChange,
+                  pattern: {
+                    message: "firstName is invalid",
+                  },
+                })}
                 placeholder="Username..."
                 className="mt-1 px-3 py-2 outline-none w-full  md:w-[24rem] rounded-md"
               />
-              {error.firstName && (
-                <p className="text-red-500 text-xs italic">{error.firstName}</p>
+              {errors.firstName && (
+                <p className="text-red-500 text-xs italic">
+                  {errors.firstName.message}
+                </p>
               )}
             </div>
             <div>
@@ -39,14 +64,20 @@ const UserInfo = () => {
               </label>
               <input
                 type="text"
-                name="Lastname"
-                value={formData.Lastname}
-                onChange={handleChange}
+                value={formData.lastName}
+                {...register("Lastname", {
+                  required: "Lastname is required",
+                  min: 4,
+                  onChange: handleChange,
+                  pattern: {
+                    message: "lastname is invalid",
+                  },
+                })}
                 placeholder="Lastname..."
                 className="mt-1 w-full  md:w-[24rem] outline-none rounded-md px-3 py-2 "
               />
-              {error.Lastname && (
-                <p className="text-red-500 text-xs italic">{error.Lastname}</p>
+              {errors.Lastname && (
+                <p className="text-red-500 text-xs italic">{errors.Lastname}</p>
               )}
             </div>
           </div>
@@ -57,14 +88,20 @@ const UserInfo = () => {
               </label>
               <input
                 type="email"
-                name="email"
                 value={formData.email}
-                onChange={handleChange}
+                {...register("email", {
+                  required: "Email is required",
+                  onChange: handleChange,
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: "Invalid email address",
+                  },
+                })}
                 placeholder="Email..."
                 className="mt-1 w-full md:w-[24rem]  rounded-md px-3 py-2 outline-none"
               />
-              {error.email && (
-                <p className="text-red-500 text-xs italic">{error.email}</p>
+              {errors.email && (
+                <p className="text-red-500 text-xs italic">{errors.email}</p>
               )}
             </div>
             <div>
@@ -73,16 +110,20 @@ const UserInfo = () => {
               </label>
               <input
                 type="text"
-                name="phonenumber"
                 value={formData.phonenumber}
-                onChange={handleChange}
+                {...register("phonenumber", {
+                  required: "Phonenumber is required",
+                  onChange: handleChange,
+                })}
                 placeholder="Phone no."
                 className="mt-1  w-full md:w-[24rem] outline-none rounded-md px-3 py-2 "
               />
+              {errors.phonenumber && (
+                <p className="text-red-500 text-xs italic">
+                  {errors.phonenumber}
+                </p>
+              )}
             </div>
-            {error.phonenumber && (
-              <p className="text-red-500 text-xs italic">{error.phonenumber}</p>
-            )}
           </div>
 
           <div className="flex md:flex-row flex-col gap-[10vw] mb-10">
@@ -92,15 +133,20 @@ const UserInfo = () => {
               </label>
               <input
                 type="text"
-                name="department"
                 value={formData.department}
-                onChange={handleChange}
+                {...register("department", {
+                  required: "department is required",
+                  onChange: handleChange,
+                  pattern: {
+                    message: "Invalid department",
+                  },
+                })}
                 placeholder="Department..."
                 className="mt-1  w-full md:w-[24rem] outline-none rounded-md px-3 py-2 "
               />
-              {error.department && (
+              {errors.department && (
                 <p className="text-red-500 text-xs italic">
-                  {error.department}
+                  {errors.department}
                 </p>
               )}
             </div>
@@ -110,15 +156,17 @@ const UserInfo = () => {
               </label>
               <input
                 type="text"
-                name="rollNumber"
                 value={formData.rollNumber}
-                onChange={handleChange}
+                {...register("rollNumber", {
+                  required: "rollnumber is required",
+                  onChange: handleChange,
+                })}
                 placeholder="Roll No."
                 className="mt-1  w-full md:w-[24rem] outline-none rounded-md px-3 py-2 "
               />
-              {error.rollNumber && (
+              {errors.rollNumber && (
                 <p className="text-red-500 text-xs italic">
-                  {error.rollNumber}
+                  {errors.rollNumber}
                 </p>
               )}
             </div>
@@ -129,14 +177,18 @@ const UserInfo = () => {
             </label>
             <input
               type="text"
-              name="Collagename"
               value={formData.Collagename}
-              onChange={handleChange}
+              {...register("Collagename", {
+                required: "Collagename is required",
+                onChange: handleChange,
+              })}
               placeholder="Collagename..."
               className="md:w-full  mt-1 px-3 py-2 outline-none w-full   rounded-md"
             />
-            {error.Collagename && (
-              <p className="text-red-500 text-xs italic">{error.Collagename}</p>
+            {errors.Collagename && (
+              <p className="text-red-500 text-xs italic">
+                {errors.Collagename}
+              </p>
             )}
           </div>
           <div className="w-full  mb-10 ">
@@ -148,14 +200,16 @@ const UserInfo = () => {
                 <h1 className="text-white">Start</h1>
                 <input
                   type="Date"
-                  name="batchstart"
                   value={formData.batchstart}
-                  onChange={handleChange}
+                  {...register("batchstart", {
+                    required: "batchstart is required",
+                    onChange: handleChange,
+                  })}
                   className="md:w-full mt-1 px-3 py-2 outline-none w-full   rounded-md"
                 />
-                {error.batchstart && (
+                {errors.batchstart && (
                   <p className="text-red-500 text-xs italic">
-                    {error.batchstart}
+                    {errors.batchstart}
                   </p>
                 )}
               </div>
@@ -163,14 +217,16 @@ const UserInfo = () => {
                 <h1 className="text-white">End</h1>
                 <input
                   type="Date"
-                  name="batchend"
                   value={formData.batchend}
-                  onChange={handleChange}
+                  {...register("batchend", {
+                    required: "batchend is required",
+                    onChange: handleChange,
+                  })}
                   className="mt-1 w-full md:w-[10vw] outline-none rounded-md px-3 py-2 "
                 />
-                {error.batchend && (
+                {errors.batchend && (
                   <p className="text-red-500 text-xs italic">
-                    {error.batchend}
+                    {errors.batchend}
                   </p>
                 )}
               </div>
@@ -184,14 +240,16 @@ const UserInfo = () => {
               </label>
               <input
                 type="url"
-                name="github"
                 value={formData.github}
-                onChange={handleChange}
+                {...register("github", {
+                  required: "github is required",
+                  onChange: handleChange,
+                })}
                 placeholder="Link..."
                 className="mt-1  w-full md:w-[24rem] outline-none  rounded-md px-3 py-2 "
               />
-              {error.github && (
-                <p className="text-red-500 text-xs italic">{error.github}</p>
+              {errors.github && (
+                <p className="text-red-500 text-xs italic">{errors.github}</p>
               )}
             </div>
             <div>
@@ -202,13 +260,16 @@ const UserInfo = () => {
                 type="url"
                 name="linkedin"
                 value={formData.linkedin}
-                onChange={handleChange}
+                {...register("linkedin", {
+                  required: "linkedin is required",
+                  onChange: handleChange,
+                })}
                 placeholder="Link..."
                 className="mt-1  w-full md:w-[24rem] outline-none rounded-md px-3 py-2 "
               />
             </div>
-            {error.linkedin && (
-              <p className="text-red-500 text-xs italic">{error.linkedin}</p>
+            {errors.linkedin && (
+              <p className="text-red-500 text-xs italic">{errors.linkedin}</p>
             )}
           </div>
 
@@ -220,11 +281,11 @@ const UserInfo = () => {
             >
               Reset
             </button>
+            <button
+              type="submit"
+              className="w-fit h-fit px-4 py-3 cursor-pointer mt-8 text-white font-bold rounded-md bg-gray-400"
+            >
+              save
+            </button>
           </div>
-        </div>
-      </form>
-    </div>
-  );
-};
-
-export default UserInfo;
+        </div> */}

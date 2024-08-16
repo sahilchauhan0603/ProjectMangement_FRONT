@@ -8,11 +8,8 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-// SendEmail sends an email to the specified recipient.
-// It uses SMTP server configuration from environment variables.
-// Returns an error if the email couldn't be sent.
-func SendEmail(recipient string) error {
-    
+func SendEmail(recipient string, subject string, body string) error {
+
 	smtpServer := os.Getenv("SMTP_SERVER")
 	smtpPort := os.Getenv("SMTP_PORT")
 	emailUser := os.Getenv("EMAIL_USER")
@@ -27,8 +24,8 @@ func SendEmail(recipient string) error {
 	m := gomail.NewMessage()
 	m.SetHeader("From", emailUser)
 	m.SetHeader("To", recipient)
-	m.SetHeader("Subject", "Password Reset")
-	m.SetBody("text/html", `<p>Click <a href="https://example.com/reset-password?token=your-reset-token">here</a> to reset your password.</p>`)
+	m.SetHeader("Subject", subject)
+	m.SetBody("text/html", body)
 
 	// Set up SMTP server details
 	d := gomail.NewDialer(smtpServer, smtpPortInt, emailUser, emailPassword)

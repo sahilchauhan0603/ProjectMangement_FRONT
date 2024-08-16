@@ -1,114 +1,261 @@
-import React, { useEffect, useState } from "react";
-import Image from "../../assets/image.png";
-import Microsoft from "../../assets/Microsoft_logo.svg.png";
-import Google from "../../assets/google.svg";
-import { FaEye } from "react-icons/fa6";
-import { FaEyeSlash } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-import "./Signup.css";
-const Signup = () => {
-  const [showPassword, setShowPassword] = useState(false);
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { FaGoogle } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "react-toastify";
+const signup = () => {
+  const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+  const [data, setdata] = useState({
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-
-  const [errors, setErrors] = useState({});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+      firstname: "",
+      lastname: "",
+      confirmPassword: "",
+    },
+  });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setdata((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const validateForm = () => {
-    let formErrors = {};
-    if (!formData.firstName) formErrors.firstName = "First name is required";
-    if (!formData.lastName) formErrors.lastName = "Last name is required";
-    if (!formData.email) formErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(formData.email))
-      formErrors.email = "Email is invalid";
-    if (!formData.password) formErrors.password = "Password is required";
-    else if (formData.password.length < 6)
-      formErrors.password = "Password must be at least 6 characters";
-    if (formData.password !== formData.confirmPassword)
-      formErrors.confirmPassword = "Passwords do not match";
-
-    setErrors(formErrors);
-    return Object.keys(formErrors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log("Form data submitted:", formData);
-      // Handle form submission, e.g., send data to server
+  const onsubmit = async (e) => {
+    const { firstname, lastname, email, password, confirmPassword } = data;
+    try {
+      const { data } = await axios.post("/users/register", {
+        email,
+        firstname,
+        lastname,
+        password,
+        confirmPassword,
+      });
+      setdata({});
+      toast.success("User registered successfully");
+      navigate("/signup");
+    } catch (err) {
+      console.log("error in signup", err);
     }
   };
-
-  const handleMicrosoftSignup = () => {
-    // Handle Microsoft registration logic
-    console.log("Register with Microsoft");
-  };
-
   return (
-    <div className="rounded-lg w-screen overflow-hidden">
-      <div className="login-main">
-        <div className="login-left w-52">
-          <img src={Image} alt="" />
+    <div className="w-screen h-screen p-[1rem]">
+      <div className="h-[100%] bg-zinc-800  mx-auto relative p-[1rem] flex rounded-lg gap-5 ">
+        <div className='md:block md:w-3/4 hidden sm:hidden relative text-zinc-700 h-[100%] bg-white bg-[url("https://images.unsplash.com/photo-1722603264833-fde4f1f8a7ec?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDh8Ym84alFLVGFFMFl8fGVufDB8fHx8fA%3D%3D")] bg-center bg-cover bg-no-repeat rounded-md object-cover'>
+          <div className=" flex items-center w-[100%] justify-between px-10 py-5 h-20">
+            <h1 className="text-2xl capitalize font-bold ">text</h1>
+            <Link to="/">
+              <button className="capitalize bg-[#ffffff38]  px-3 py-2 rounded-md text-[15px] ">
+                back to website →
+              </button>
+            </Link>
+          </div>
+          <div className="absolute bottom-[3.5vw] lg:left-[10vw] md:left-[5vw] ">
+            <h2 className="text-[3rem]  text-white font-serif">
+              Creating Models
+            </h2>
+            <div className="flex gap-10 justify-center">
+              <div className="w-16 rounded-md h-[5px] bg-white"></div>
+              <div className="w-16 rounded-md h-[5px] bg-white"></div>
+              <div className="w-16 rounded-md h-[5px] bg-white"></div>
+            </div>
+          </div>
         </div>
-        <div className="login-right">
-          <div className="login-right-container">
-            <div className="login-center text-white">
-              <h1 className="text-[2rem] mb-3">
-                Already have an account? <Link to="/login">Log in</Link>
-              </h1>
-              <div className="bg-red-100">
-                <button className="">
-                  <img src={Google} className="w-20" /> Sign up with Google
-                </button>
-                <button>
-                  <img src={Microsoft} width="16px" /> Sign up with Microsoft
-                </button>
+        <div className="md:w-3/4 relative w-full  h-[100%] text-white ">
+          <div className="w-full  h-full flex flex-col justify-center items-center ">
+            <div className=" w-full relative h-[10%] flex flex-col justify-end mb-[3vw]">
+              <div className="flex items-center justify-center gap-5 mb-5">
+                <h1 className="text-[4vw] mb-3">Create an account</h1>
               </div>
-              <span>or</span>
-              <form>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="text-black text-xl input"
-
-                />
-                <div className="pass-input-div text-black">
+              <p className="text-lg absolute left-[18%] bottom-0 font-serif">
+                Already have an a account?
+                <span className="text-purple-400 text-xl ml-3 border-b-2 border-white">
+                  <Link to="/login">login</Link>
+                </span>
+              </p>
+            </div>
+            <div className="w-full flex  justify-center      relative">
+              <form onSubmit={handleSubmit(onsubmit)}>
+                <div className="flex gap-5">
+                  <div className="w-96 flex flex-col mb-5">
+                    <span className="text-2xl mb-1">First Name</span>
+                    <input
+                      className="px-3 py-3 bg-[#0000001a] text-white outline-none"
+                      placeholder="firstname"
+                      value={data.firstname}
+                      {...register("firstname", {
+                        required: "firstname is required",
+                        type: "text",
+                        minLength: {
+                          value: 3,
+                          message:
+                            "First name must be at least 3 characters long",
+                        },
+                        onChange: handleChange,
+                        pattern: {
+                          message: "firstname is required",
+                        },
+                      })}
+                    />
+                    {errors.email && (
+                      <>
+                        <p style={{ color: "orangered" }}>
+                          {errors.firstname.message}
+                        </p>
+                      </>
+                    )}
+                  </div>
+                  <div className="w-96 flex flex-col mb-5">
+                    <span className="text-2xl mb-1">Last Name</span>
+                    <input
+                      className="px-3 py-3 bg-[#0000001a] text-white outline-none"
+                      placeholder="Lastname"
+                      value={data.lastname}
+                      {...register("lastname", {
+                        required: "lastname is required",
+                        type: "text",
+                        onChange: handleChange,
+                        minLength: {
+                          value: 3,
+                          message:
+                            "Last name must be at least 3 characters long",
+                        },
+                        pattern: {
+                          message: "lastname is required",
+                        },
+                      })}
+                    />
+                    {errors.email && (
+                      <>
+                        <p style={{ color: "orangered" }}>
+                          {errors.lastname.message}
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className="w-full flex flex-col  mb-5">
+                  <span className="text-2xl mb-1">Email</span>
                   <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    className="input"
+                    id="email"
+                    className="px-3 py-3 bg-[#0000001a] text-white outline-none"
+                    placeholder="Email"
+                    value={data.email}
+                    {...register("email", {
+                      required: "Email is required",
+                      type: "email",
+                      onChange: handleChange,
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Invalid email address",
+                      },
+                    })}
                   />
-                  {showPassword ? (
-                    <FaEyeSlash
-                      onClick={() => {
-                        setShowPassword(!showPassword);
-                      }}
-                    />
-                  ) : (
-                    <FaEye
-                      onClick={() => {
-                        setShowPassword(!showPassword);
-                      }}
-                    />
+                  {errors.email && (
+                    <>
+                      <p style={{ color: "orangered" }}>
+                        {errors.email.message}
+                      </p>
+                    </>
                   )}
                 </div>
-
-                <div className="login-center-buttons">
-                  <Link to="/">
-                    <button type="button">Create Account</button>
-                  </Link>
+                <div className="w-full mb-5 flex flex-col">
+                  <span className="text-2xl mb-1">Password</span>
+                  <input
+                    placeholder="Password"
+                    value={data.password}
+                    className="px-3 py-3 bg-[#0000001a] text-white outline-none"
+                    {...register("password", {
+                      required: "Password is required",
+                      type: "password",
+                      minLength: {
+                        value: 8,
+                        message: "Password must be at least 8 characters long",
+                      },
+                      onChange: handleChange,
+                      pattern: {
+                        message: "Password is Incorrect",
+                      },
+                    })}
+                  />
+                  {errors.password && (
+                    <>
+                      <p style={{ color: "orangered" }}>
+                        {errors.password.message}
+                      </p>
+                    </>
+                  )}
                 </div>
+                <div className="w-full mb-5 flex flex-col">
+                  <span className="text-2xl mb-1">Confirm Password</span>
+                  <input
+                    placeholder="confirmPassword"
+                    value={data.confirmPassword}
+                    className="px-3 py-3 bg-[#0000001a] text-white outline-none"
+                    {...register("confirmPassword", {
+                      required: "confirmPassword is required",
+                      type: "confirmPassword",
+                      minLength: {
+                        value: 8,
+                        message:
+                          "confirmPassword must be at least 8 characters long",
+                      },
+                      onChange: handleChange,
+                      pattern: {
+                        message: "confirm Password is Incorrect",
+                      },
+                    })}
+                  />
+                  {errors.confirmPassword && (
+                    <>
+                      <p style={{ color: "orangered" }}>
+                        {errors.confirmPassword.message}
+                      </p>
+                    </>
+                  )}
+                </div>
+                <button
+                  className="bg-purple-400 px-3 py-2 text-white w-full  rounded-md flex justify-center"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit"}
+                </button>
               </form>
+            </div>
+            <p className="text-lg mb-5 text-center mt-5 flex items-center justify-center gap-5 w-full ">
+              <div className="w-28 h-[1px] bg-white"></div>
+              <p className="">or register with</p>
+              <div className="w-28 h-[1px] bg-white"></div>
+            </p>
+            <div className="mt-5 flex items-center gap-12">
+              <button className="w-40 flex border-2 gap-5 border-zinc-600 py-4 px-3 items-center rounded-md">
+                <FaGoogle className="text-2xl" />
+                <span className="ml-3 capitalize font-serif text-xl">
+                  Google
+                </span>
+              </button>
+              <button className="w-40 flex border-2 gap-5 border-zinc-600 py-4 px-3 items-center rounded-md">
+                <FaGithub className="text-2xl" />
+                <span className="ml-3 capitalize font-serif text-xl">
+                  Github
+                </span>
+              </button>
             </div>
           </div>
         </div>
@@ -117,94 +264,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
-
-{
-  /* <h2>Get started.</h2>
-<p>
-  Already have an account? <Link href="#">Log in</Link>
-</p>
-<div class="sign-up-buttons">
-  <button id="sign-up">
-    <img src={Google} className="w-20" /> Sign up with Google
-  </button>
-  <button id="sign-up-facebook">
-    <img src={Microsoft} width="16px" /> Sign up with
-    Microsoft
-  </button>
-</div>
-<p class="socials-divider">
-  <span>or</span>
-</p> */
-}
-
-{
-  /* <div className="mb-4">
-                <label
-                  className="flex text-white text-xl font-bold mb-2"
-                  htmlFor="firstName"
-                >
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  placeholder="First Name"
-                />
-                {errors.firstName && (
-                  <p className="text-red-500 text-xs italic">
-                    {errors.firstName}
-                  </p>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 text-xl font-bold mb-2"
-                  htmlFor="lastName"
-                >
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  placeholder="Last Name"
-                />
-                {errors.lastName && (
-                  <p className="text-red-500 text-xs italic">
-                    {errors.lastName}
-                  </p>
-                )}
-              </div> */
-}
-
-// <div className="mb-6">
-// <label
-//   className="block text-gray-700 text-xl font-bold mb-2"
-//   htmlFor="confirmPassword"
-// >
-//   Confirm Password
-// </label>
-// <input
-//   type="password"
-//   id="confirmPassword"
-//   name="confirmPassword"
-//   value={formData.confirmPassword}
-//   onChange={handleChange}
-//   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-//   placeholder="Confirm Your Password"
-// />
-// {errors.confirmPassword && (
-//   <p className="text-red-500 text-xs italic">
-//     {errors.confirmPassword}
-//   </p>
-// )}
-// </div>
+export default signup;

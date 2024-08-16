@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { Researchdropdown, Researchdropdown2 } from "../Data/Data";
 import { FiSearch } from "react-icons/fi";
 import { RxHamburgerMenu } from "react-icons/rx";
-import bpit from "../assets/bpit.png"
+import bpit from "../assets/bpit.png";
+import axios from "axios";
 
 const useDebouncedValue = (inputValue, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(inputValue);
@@ -27,6 +28,13 @@ const Navbar = () => {
   const [Researchdropdownopen2, setResearchdropdown2] = useState(false);
   const [sidemenu, setsidemenu] = useState(false);
   const searchref = useRef();
+  const [user, setuser] = useState(null);
+
+  
+  const handleLogout = () => {
+    localStorage.removeItem("jwtToken");
+    window.location.href = "/";
+  };
 
   const HandleResearchopen = () => {
     setResearchdropdown(!Researchdropdownopen);
@@ -70,11 +78,7 @@ const Navbar = () => {
         {/* nav-left */}
         <div className="flex justify-between items-center w-full md:w-auto">
           <Link to="/">
-            <img
-              src={bpit}
-              alt="bpit"
-              className="hidden sm:block w-20"
-            />
+            <img src={bpit} alt="bpit" className="hidden sm:block w-20" />
           </Link>
           {sidemenu && (
             <div className="absolute top-14 left-0 z-40 w-full bg-gray-100 shadow-lg md:hidden">
@@ -208,8 +212,11 @@ const Navbar = () => {
             </button>
           </Link>
           <Link to="/login">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-full">
-              Login
+            <button
+              // onClick={handleLogout}
+              className="bg-blue-500 text-white px-4 py-2 rounded-full"
+            >
+              login
             </button>
           </Link>
         </div>

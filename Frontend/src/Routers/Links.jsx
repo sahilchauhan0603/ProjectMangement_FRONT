@@ -7,6 +7,7 @@ import Userprofile from "../Component/Userprofile/Userprofile";
 import ResearchDetails from "../Component/AboutResearch/AboutResearch";
 import Login from "../Component/Login/Login";
 import Signup from "../Component/signup/Signup";
+import Logout from "../Component/logout/Logout";
 function Link() {
   return (
     <div className=" bg-zinc-800  w-screen h-screen flex">
@@ -16,7 +17,7 @@ function Link() {
         <Route path="/user" element={<Userprofile />}></Route>
         <Route path="/viewresearch" element={<ResearchDetails />}></Route>
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/logout" element={<Logout />} />*/}
+        {/* <Route path="/logout" element={<Logout />} /> */}
         <Route path="/signup" element={<Signup />} /> 
         <Route path="*" element={<Notfound />}></Route>
       </Routes>

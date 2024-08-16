@@ -14,21 +14,6 @@ import (
 var DB *gorm.DB
 var err error
 
-// DatabaseConnector initializes the database connection and migrates the necessary tables.
-//
-// This function retrieves environment variables for the database connection,
-// checks if the database exists, creates it if it doesn't, and performs
-// auto-migration for the Admin, Work, and Uploader models.
-//
-// It is expected that the following environment variables are set:
-// - DB_NAME: Name of the database
-// - DB_USER: Database username
-// - DB_PASS: Database password
-// - DB_HOST: Database host
-// - DB_PORT: Database port
-//
-// If any required environment variable is missing or if the database connection
-// or migration fails, the application will log an error and exit.
 func DatabaseConnector() {
 	// Retrieve environment variables for the database
 	dbName := os.Getenv("DB_NAME")
@@ -60,15 +45,12 @@ func DatabaseConnector() {
 		log.Fatal("failed to connect database: ", err)
 	}
 
-	// First migrate the admin table
-	err = DB.AutoMigrate(&models.Admin{})
-	if err != nil {
-		log.Fatalf("failed to migrate Admin: %v", err)
-	}
-
-	// Then migrate the related tables
-	err = DB.AutoMigrate(&models.Work{}, &models.Uploader{})
-	if err != nil {
-		log.Fatalf("failed to migrate related tables: %v", err)
+	//Migrate the schema
+	if err := DB.AutoMigrate(
+		&models.ProjectAdmin{},
+		&models.ProjectWork{},
+		&models.ProjectUploader{},
+	); err != nil {
+		log.Fatal(err)
 	}
 }
