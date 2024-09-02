@@ -38,21 +38,26 @@ const signup = () => {
 
   const onsubmit = async (e) => {
     const { firstname, lastname, email, password, confirmPassword } = data;
+    if (password !== confirmPassword) {
+      toast("Passwords do not match");
+      return;
+    }
     try {
-      const { data } = await axios.post("/users/register", {
+      const response = await axios.post("http://localhost:8000/info/signup", {
         email,
         firstname,
         lastname,
         password,
-        confirmPassword,
       });
+      console.log(response.data);
       setdata({});
-      toast.success("User registered successfully");
-      navigate("/signup");
+      toast("User registered successfully");
+      navigate("/login");
     } catch (err) {
       console.log("error in signup", err);
     }
   };
+
   return (
     <div className="w-screen h-screen p-[1rem]">
       <div className="h-[100%] bg-zinc-800  mx-auto relative p-[1rem] flex rounded-lg gap-5 ">
@@ -177,12 +182,12 @@ const signup = () => {
                 <div className="w-full mb-5 flex flex-col">
                   <span className="text-2xl mb-1">Password</span>
                   <input
+                    type="password"
                     placeholder="Password"
                     value={data.password}
                     className="px-3 py-3 bg-[#0000001a] text-white outline-none"
                     {...register("password", {
                       required: "Password is required",
-                      type: "password",
                       minLength: {
                         value: 8,
                         message: "Password must be at least 8 characters long",
@@ -204,12 +209,12 @@ const signup = () => {
                 <div className="w-full mb-5 flex flex-col">
                   <span className="text-2xl mb-1">Confirm Password</span>
                   <input
+                    type="password"
                     placeholder="confirmPassword"
                     value={data.confirmPassword}
                     className="px-3 py-3 bg-[#0000001a] text-white outline-none"
                     {...register("confirmPassword", {
                       required: "confirmPassword is required",
-                      type: "confirmPassword",
                       minLength: {
                         value: 8,
                         message:

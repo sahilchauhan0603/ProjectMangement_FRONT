@@ -34,11 +34,11 @@ const Login = () => {
   const onsubmit = async (e) => {
     const { email, password } = data;
     try {
-      const { data: res } = await axios.post("/login", {
+      const res = await axios.post("http://localhost:8000/info/login", {
         email,
         password,
       });
-      localStorage.setItem("token", res.data);
+      localStorage.setItem("token", res);
       toast.success("User login successfully");
       navigate("/home");
     } catch (err) {

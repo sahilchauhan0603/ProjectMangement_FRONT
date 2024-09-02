@@ -10,18 +10,16 @@ import Signup from "../Component/signup/Signup";
 import Logout from "../Component/logout/Logout";
 function Link() {
   return (
-    <div className=" bg-zinc-800  w-screen h-screen flex">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/AddResearch" element={<AddResearch />} />
-        <Route path="/user" element={<Userprofile />}></Route>
-        <Route path="/viewresearch" element={<ResearchDetails />}></Route>
-        <Route path="/login" element={<Login />} />
-        {/* <Route path="/logout" element={<Logout />} /> */}
-        <Route path="/signup" element={<Signup />} /> 
-        <Route path="*" element={<Notfound />}></Route>
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/AddResearch" element={<AddResearch />} />
+      <Route path="/user" element={<Userprofile />}></Route>
+      <Route path="/viewresearch" element={<ResearchDetails />}></Route>
+      <Route path="/login" element={<Login />} />
+      {/* <Route path="/logout" element={<Logout />} /> */}
+      <Route path="/signup" element={<Signup />} />
+      <Route path="*" element={<Notfound />}></Route>
+    </Routes>
   );
 }
 
